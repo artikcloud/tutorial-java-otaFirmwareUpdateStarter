@@ -1,4 +1,6 @@
-## Sample java application implementing ARTIK Cloud OTA - LWM2M Firmware Update</u>
+## This sample demonstrates initiating an ARTIK Cloud OTA (Over the Air) Firmware Update to a java sample application.
+
+</u>
 
 ### <u>Requirements:</u>
 - ARTIK Cloud Java SDK version >= 2.0.7+
