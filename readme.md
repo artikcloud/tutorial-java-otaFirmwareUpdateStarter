@@ -14,6 +14,15 @@ After completing this sample you will learn the following objectives:
 - Implement the OTA (Over the Air) Firmware Update LWM2M and run your client.
 - Upload and initiate a firmware update from ARTIK Cloud (via Device Management Dashboard) to your end device.
 
+## Quick Start
+- Create Device Type in ARTIK Cloud and Enable Device Management.    
+- Upload an Image for firmware update and note the firmware version number you are setting.
+- Add a Device to your account of the same Device Type.   Note the device credentials.
+- In the sample code, add credentials to the SampleApp.java file with your device credentials and firmware version you have uploaded to ARTIK Cloud.  
+- Run the SampleApp - this will create a connection to ARTIK Cloud and wait for a firmware update.
+- In ARTIK Cloud Device Management Dashboard, select your connected devices you would like to apply a firmware update.  Use the dropdown menu and select "Execute OTA Update".
+- Watch the logs in your SampleApp for relevant firmware update information.
+
 ### <u>Setup:</u>
 
 - Clone this sample application if you haven't already and import/setup project in your favorite IDE.
