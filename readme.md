@@ -1,20 +1,17 @@
-## This sample demonstrates initiating an ARTIK Cloud OTA (Over the Air) Firmware Update to a java lwm2m client sample application.
+# LWM2M client performing OTA firmware update triggered from ARTIK Cloud 
 
-### <u>Requirements:</u>
-- ARTIK Cloud Java SDK version >= 2.0.7+
+This sample is java LWM2M client application. It acts on the OTA (Over the Air)firmware update triggered by manual operations in Device Management dashboard in ARTIK Cloud.
+
+After completing this sample, you will learn the following objectives:
+
+- Implement an LWM2M client based on ARTIK Cloud LWM2M SDK. The client can perform the OTA firmware update triggered by ARTIK Cloud.
+- Upload and initiate a firmware update from ARTIK Cloud (via Device Management Dashboard) to your end device.
+
+## Requirements
 - ARTIK Cloud LWM2M SDK (Java)
 - Java version >= 7
 
-### <u>Introduction:</u>
-
-This sample demonstrates initiating an ARTIK Cloud  OTA (Over the Air) Firmware Update to a  java sample application.
-
-After completing this sample you will learn the following objectives:
-
-- Implement the OTA (Over the Air) Firmware Update LWM2M and run your client.
-- Upload and initiate a firmware update from ARTIK Cloud (via Device Management Dashboard) to your end device.
-
-## Quick Start
+## Overview of workflows
 - Create Device Type in ARTIK Cloud and Enable Device Management.    
 - Upload an Image for firmware update and note the firmware version number you are setting.
 - Add a Device to your account of the same Device Type.   Note the device credentials.
@@ -23,7 +20,7 @@ After completing this sample you will learn the following objectives:
 - In ARTIK Cloud Device Management Dashboard, select your connected devices you would like to apply a firmware update.  Use the dropdown menu and select "Execute OTA Update".
 - Watch the logs in your SampleApp for relevant firmware update information.
 
-### <u>Setup:</u>
+## Setup
 
 - Clone this sample application if you haven't already and import/setup project in your favorite IDE.
 
@@ -33,9 +30,9 @@ After completing this sample you will learn the following objectives:
 
 - Run the SampleApp.java appliation as a running process that will wait your FirmwareUpdate command.
 
-- Follow additional steps from <u>Overview</u>.
+- Follow additional steps from Workflow.
 
-### <u>Overview:</u>
+## Workflow
 
 1. **Create a Device Type** (or use one you already own) from your [Developer Dashboard](#resources).   
 
@@ -87,12 +84,12 @@ After completing this sample you will learn the following objectives:
    16:17:23.945 [Thread-2] INFO  cloud.artik.lwm2m.FirmwareUpdate - >>>simulate updateding complete!
    ```
 
-   #### Sample Code Details:
+## Implementation
 
-   All that is required to run the code is overriding the following two methods from the FirmwareUpdate class.  This follows the LWM2M Specifications for Object 5 FirmwareUpdate Resources.
+All that is required to run the code is overriding the following two methods from the FirmwareUpdate class.  This follows the LWM2M Specifications for Object 5 FirmwareUpdate Resources.
 
-   - downloadPackage(String packageUri)
-   - executeUpdateFirmware()
+ - downloadPackage(String packageUri)
+ - executeUpdateFirmware()
 
    ```javascript
    //SampleApp.java snip
@@ -122,11 +119,9 @@ After completing this sample you will learn the following objectives:
    ```
 
 
-
 Check out our documentation for more OTA (Over the Air) Updates  [OTA documentation](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html).
 
-
-### <u>Resources</u>
+## Resources
 
 ###### Referenced Code Samples / Documentation
 
@@ -152,7 +147,6 @@ Check out our documentation for more OTA (Over the Air) Updates  [OTA documentat
 - **Device Type —> Device Management —> Properties**:  Enable Server and Device Properties for Device Management
 - **Device Type —> Device Management —> Tasks**:  View Task Status
 
-
 More about ARTIK Cloud
 ----------------------
 
@@ -170,6 +164,6 @@ Also see the ARTIK Cloud blog for tutorials, updates, and more: http://artik.io/
 License and Copyright
 ---------------------
 
-Licensed under the Apache License. See LICENSE.
+Licensed under the Apache License. See [LICENSE](LICENSE).
 
 Copyright (c) 2017 Samsung Electronics Co., Ltd.
