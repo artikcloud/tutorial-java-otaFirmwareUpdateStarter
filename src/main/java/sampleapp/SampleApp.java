@@ -12,44 +12,44 @@ import cloud.artik.lwm2m.enums.SupportedBinding;
 
 public class SampleApp {
 
-	public static final String DEVICE_ID = "YOUR DEVICE ID";
-	public static final String DEVICE_TOKEN = "YOUR DEVICE TOKEAN";
+	private static final String DEVICE_ID = "YOUR DEVICE ID";
+	private static final String DEVICE_TOKEN = "YOUR DEVICE ID";
 	
-	//image version you specificed in ARTIK Cloud
-	public static final String FINAL_FIRMWARE_VERSION = "YOUR FIRMWARE IMAGE VERSION";  
+	// Track the firmware version number at the device
+	private static int currentFirmwareVer;
 	
 	//generic time to keep the sample app running
-	public static final long MAX_KEEP_CONNECTION_OPEN = 600000;
+	private static final long MAX_KEEP_CONNECTION_OPEN = 600000;
 	
-	protected static class Bootstrap {
-		private static final String Manufacture = "Sample Company XYZ";
-		private static final String Model = "XYZ-1";
-		private static final String SerialNumber = "1234567890";
-		private static final String InitialFirmwareVersion = "0.001";
+	private static class Bootstrap {
+		private static final String MANUFACTURE = "Sample Company XYZ";
+		private static final String MODEL = "XYZ-1";
+		private static final String SERIAL_NUMBER = "1234567890";
+		private static final int INITIAL_FIRMWARE_VERSION = 0;
 	}
 	
     public static void main (String args[]) throws InterruptedException {
-    	 
-      final Logger LOGGER = LoggerFactory.getLogger(SampleApp.class);
-    	     
       final Device device = new Device(
-    		 Bootstrap.Manufacture, Bootstrap.Model, Bootstrap.SerialNumber, SupportedBinding.UDP) {
+    		 Bootstrap.MANUFACTURE, Bootstrap.MODEL, Bootstrap.SERIAL_NUMBER, SupportedBinding.UDP) {
              
              @Override
              public ExecuteResponse executeReboot() {
-                 LOGGER.info(">>>executeReboot");
+                 System.out.println("\n" + ">>>executeReboot");
+                 //TODO add your code
                  return ExecuteResponse.success();
              }
              
              @Override
              public ExecuteResponse executeFactoryReset() {
-                 LOGGER.info(">>>executeFactoryReset");
+                 System.out.println("\n" + ">>>executeFactoryReset");
+                 //TODO add your code
                  return ExecuteResponse.success();
              }
              
              @Override
              protected ExecuteResponse executeResetErrorCode() {
-                 LOGGER.info(">>>executeResetErrorCode");
+                 System.out.println("\n" + ">>>executeResetErrorCode");
+                 //TODO add your code
                  return super.executeResetErrorCode();
              }
       };
@@ -67,15 +67,16 @@ public class SampleApp {
             
            @Override
            public FirmwareUpdateResult downloadPackage(String packageUri) {
-        	   
-               LOGGER.info(">>>downloadPackage(String packageUri).  Image url:" + packageUri);
+               System.out.println("\n" + ">>>downloadPackage(String packageUri)." + "\n" 
+        	                    + "   Image url:" + packageUri);
                
                try {
-            	   LOGGER.info(">>>simulate downloading ...");
+            	   System.out.println(">>>simulate downloading ...");
                    Thread.sleep(1000);
-                   LOGGER.info(">>>simluate downloading complete!");
+                   System.out.println(">>>simluate downloading complete!");
                } catch (InterruptedException exc) {
-                   
+                   // Something went wrong when downloading
+            	   return FirmwareUpdateResult.NO_STORAGE; // an example of failures
                }
 
                //returning success here puts FirmwareUpdate State to "Downloaded".
@@ -84,28 +85,32 @@ public class SampleApp {
            
            @Override
            public FirmwareUpdateResult executeUpdateFirmware() {
-               LOGGER.info(">>>executeUpdateFirmware()");
+               System.out.println(">>>executeUpdateFirmware()");
                
                try {
-            	   LOGGER.info(">>>simulate updating ...");
+            	   System.out.println(">>>simulate updating ...");
                    Thread.sleep(1000);
-                   LOGGER.info(">>>simulate updateding complete!");
-               } catch (InterruptedException exc) {
-                   
+                   // In the real world, get the firmware version from the new image installed
+                   ++currentFirmwareVer; 
+                   System.out.println(">>>simulate updating complete with version " + currentFirmwareVer + "");
+              } catch (InterruptedException exc) {
+                   // Something went wrong during installing new firmware
+            	   return FirmwareUpdateResult.FAILED; // an example of failures
                }
                
-               device.setFirmwareVersion(FINAL_FIRMWARE_VERSION, true);
-              
+               // Must call this method. This ensures that this version number is passed to ARTIK Cloud when the cloud polls
+               // the device for the lwm2m object 0/3/3.
+               device.setFirmwareVersion(String.valueOf(currentFirmwareVer), true);
                return FirmwareUpdateResult.SUCCESS;
-               
            }
-           
        };
-       
+ 
+       currentFirmwareVer = Bootstrap.INITIAL_FIRMWARE_VERSION;
+
        //wire client with FirewareUpdate
        client.setFirmwareUpdate(sampleFirmwareUpdate);
-       device.setFirmwareVersion(Bootstrap.InitialFirmwareVersion, true);
-       
+       device.setFirmwareVersion(String.valueOf(currentFirmwareVer), true);
+
        // Register
        client.start();
        
@@ -119,4 +124,6 @@ public class SampleApp {
        client.close();
 	    	 
      }
+    
+     
 }
