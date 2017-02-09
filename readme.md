@@ -1,10 +1,10 @@
 # LWM2M client performing OTA firmware update
 
-This sample is java LWM2M client application. It acts on the OTA (Over The Air)firmware update triggered by manual operations in Device Management dashboard in ARTIK Cloud.
+This sample is java LWM2M client application. It acts on the OTA (Over The Air) firmware update triggered by manual operations in Device Management dashboard in ARTIK Cloud.
 
 After completing this sample, you will learn the following objectives:
 
-- Use Device Management of Deverloper Dashboard to [upload a firmware image](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#upload-and-manage-images) and [trigger an OTA firmware update](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#execute-ota-update) to your end device.
+- Use Device Management page of Deverloper Dashboard to [upload a firmware image](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#upload-and-manage-images) and [trigger an OTA firmware update](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#execute-ota-update) to your end device.
 - Implement an LWM2M client based on [ARTIK Cloud LWM2M Java SDK](https://github.com/artikcloud/artikcloud-lwm2m-java). The client can perform the OTA firmware update triggered by ARTIK Cloud.
 
 ## Requirements
@@ -13,43 +13,42 @@ After completing this sample, you will learn the following objectives:
 - Apache Maven 3.0.5 or above
 
 ## Overview of workflows
-- Create Device Type in Developer Dashboard and enable Device Management for that device type.    
+- Create a device type in Developer Dashboard and enable Device Management for that device type.    
 - Add a device of that type to your account in My ARTIK Cloud. Note the device ID and token.
 - In the sample code, add device ID and token to the SampleApp.java file.  
-- Run the SampleApp - this will create a connection to ARTIK Cloud and wait for a firmware update.
-- In ARTIK Cloud Device Management Dashboard, upload an Image for firmware update and select your connected devices you would like to apply a firmware update.  Use the dropdown menu and select "Execute OTA Update".
-- Watch the logs in your SampleApp for relevant firmware update information.
+- Run the SampleApp (lwm2m client) - this will create a connection to ARTIK Cloud and wait for a firmware update.
+- In ARTIK Cloud Device Management Dashboard, upload a firmware image, and select the connected device to apply a firmware update.
+- Watch the logs in of the lwm2m client to observe the firmware update.
 
 ## Setup / Installation
 
 ### Setup at ARTIK Cloud
 
- 1. [Create a Device Type](https://developer.artik.cloud/documentation/tools/web-tools.html#creating-a-device-type) (or use the one you already own) in  the [Developer Dashboard](https://developer.artik.cloud/).   
+ 1. [Create a device type](https://developer.artik.cloud/documentation/tools/web-tools.html#creating-a-device-type) (or use the one you already own) in  the [Developer Dashboard](https://developer.artik.cloud/).   
 
- 2. Enable [Device Management](https://developer.artik.cloud/documentation/advanced-features/device-management.html#device-management-in-the-developer-dashboard) for your Device Type. You do this in the [Device Type Dashboard](https://developer.artik.cloud/dashboard/devicetypes)—> Select Your Device Type —> Select Device Management —> Click "Enable Device Properties".
+ 2. Enable [Device Properties](https://developer.artik.cloud/documentation/advanced-features/device-management.html#device-management-in-the-developer-dashboard) for your device type. You do this in the [Device Type Dashboard](https://developer.artik.cloud/dashboard/devicetypes)—> Select Your Device Type —> Select Device Management —> Click "Enable Device Properties".
 
- 3. [Connect a device](https://developer.artik.cloud/documentation/tools/web-tools.html#connecting-a-device) (or use one you already own) of the Device Type you enabled earlier. Get the [device ID and token](https://developer.artik.cloud/documentation/tools/web-tools.html#managing-a-device-token), which you will use in the sample code later.
+ 3. At [My ARTIK Cloud](https://my.artik.cloud/), [connect a device](https://developer.artik.cloud/documentation/tools/web-tools.html#connecting-a-device) (or use one you already own) of the device type. Get the [device ID and token](https://developer.artik.cloud/documentation/tools/web-tools.html#managing-a-device-token), which you will use in the sample code later.
 
 ### Setup the Java project
 
  1. Clone this sample application if you haven't already done so.
 
- 2. Follow the installation instructions of the [ARTIK Cloud LWM2M Java SDK](https://github.com/artikcloud/artikcloud-lwm2m-java) to install SDK libraries in your local maven repository.   
-  *Please note that this is different from the [ARTIK Cloud Java SDK](https://github.com/artikcloud/artikcloud-java).*
+ 2. Follow the installation instructions of the [ARTIK Cloud LWM2M Java SDK](https://github.com/artikcloud/artikcloud-lwm2m-java) to install SDK libraries in your local maven repository. *Please note that this SDK is different from the [ARTIK Cloud Java SDK](https://github.com/artikcloud/artikcloud-java).*
  3. Update the SampleApp.java file. Replace the place holders with your device ID and device token obtained from My ARTIK Cloud.
-  ```
+ ~~~java
    public static final String DEVICE_ID = "YOUR DEVICE ID";
    public static final String DEVICE_TOKEN = "YOUR DEVICE TOKEN";
-  ```
+ ~~~
  4. Run the following build command at the top of the source directory:
-~~~shell
-mvn clean package
-~~~
-The executable `otaLwm2mClient-x.x.jar` is generated under the target directory.
+  ~~~shell
+  mvn clean package
+  ~~~
+  The executable `otaLwm2mClient-x.x.jar` is generated under the target directory.
 
 ## Play with firmware update
 
-Are you ready to have some fun? 
+Are you ready to have fun? 
 
  1. Start lwm2m client. Run the following command at the top of the source directory:
   ~~~shell
@@ -57,7 +56,7 @@ Are you ready to have some fun?
   ~~~
  From the terminal print out, you should see that the client establishes a connection to ARTIK Cloud LWM2M server and is now waiting to receive an Over The Air firmware update from the server.
  
- 2. Go to Developer Dashboard to [upload a Firmware image](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html) for your Device Type. You can select any type of files (e.g. txt) as an image. In the [firmware image metadata screen](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#firmware-image-metadata),  enter the following image metadata for the image: 
+ 2. Go to Developer Dashboard to [upload a Firmware image](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html) for your Device Type. You can select any type of files (e.g. txt) as an image. In the [firmware image metadata screen](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#firmware-image-metadata),  enter the following information: 
      - Choose "Application" as an [update type](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#execute-ota-update).
      - **Set "version number" to 1**.
 
@@ -78,12 +77,12 @@ Are you ready to have some fun?
   
 ## Implementation
 
-To implement an lwm2m client that can up firmware via ARTIK Cloud, all you need to override the following two methods from the FirmwareUpdate class. This follows the LWM2M Specifications for Object 5 FirmwareUpdate Resources.
+To implement the lwm2m client that can perform firmware via ARTIK Cloud, you just need to override the following two methods of the FirmwareUpdate class. This follows the LWM2M Specifications for Object 5 FirmwareUpdate Resources.
 
  - downloadPackage(String packageUri)
  - executeUpdateFirmware()
 
-   ```javascript
+   ```java
    //SampleApp.java 
    FirmwareUpdate sampleFirmwareUpdate = new FirmwareUpdate() {
 
@@ -120,12 +119,13 @@ Check out our documentation for more OTA (Over the Air) Updates  [OTA documentat
 | ------------------------------- | ------------- | ---------------------------------------- |
 | ARTIK Cloud LWM2M Client (Java) | Code/  SDK    | https://github.com/artikcloud/artikcloud-lwm2m-java |
 | ARTIK Cloud LWM2M Client (C)    | Code / SDK    | https://github.com/artikcloud/artikcloud-lwm2m-c |
-| ARTIK Cloud SDK                 | Code / SDK    | https://github.com/artikcloud/artikcloud-java |
+| ARTIK Cloud Java SDK                 | Code / SDK    | https://github.com/artikcloud/artikcloud-java |
 | Documentation: LWM2M            | Documentation | https://developer.artik.cloud/documentation/advanced-features/manage-devices-using-lwm2m.html |
+| How to enable device managment | Documentation     | https://developer.artik.cloud/documentation/advanced-features/device-management.html#device-management-in-the-developer-dashboard |
 | OTA Updates                     | Documenation  | https://developer.artik.cloud/documentation/advanced-features/ota-updates.html |
 | My ARTIK cloud                   | Dashboard     | https://my.artik.cloud                   |
 | Developer Dashboard            | Dashboard     | https://developer.artik.cloud/dashboard  |
-| How to enable device managment | Documentation     | https://developer.artik.cloud/documentation/advanced-features/device-management.html#device-management-in-the-developer-dashboard |
+
 
 More about ARTIK Cloud
 ----------------------
