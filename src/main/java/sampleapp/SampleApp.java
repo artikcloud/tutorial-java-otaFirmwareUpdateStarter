@@ -113,7 +113,6 @@ public class SampleApp {
 
        // Register
        client.start();
-       System.out.println(">>>Waiting for commands....\n");
 
        // Sample just keeps the connection open for set period of time and will exit. 
        Thread.sleep(MAX_KEEP_CONNECTION_OPEN);
