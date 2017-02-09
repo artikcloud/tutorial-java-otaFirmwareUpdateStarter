@@ -13,7 +13,7 @@ import cloud.artik.lwm2m.enums.SupportedBinding;
 public class SampleApp {
 
 	private static final String DEVICE_ID = "YOUR DEVICE ID";
-	private static final String DEVICE_TOKEN = "YOUR DEVICE ID";
+	private static final String DEVICE_TOKEN = "YOUR DEVICE TOKEN";
 	
 	// Track the firmware version number at the device
 	private static int currentFirmwareVer;
@@ -113,7 +113,8 @@ public class SampleApp {
 
        // Register
        client.start();
-       
+       System.out.println(">>>Waiting for commands....\n");
+
        // Sample just keeps the connection open for set period of time and will exit. 
        Thread.sleep(MAX_KEEP_CONNECTION_OPEN);
 
@@ -122,6 +123,7 @@ public class SampleApp {
        
        // Finish
        client.close();
+       System.out.println("\n>>>Exiting....");
 	    	 
      }
     
