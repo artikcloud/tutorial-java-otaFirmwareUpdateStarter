@@ -35,15 +35,20 @@ After completing this sample, you will learn the following objectives:
  1. Clone this sample application if you haven't already done so.
 
  2. Follow the installation instructions of the [ARTIK Cloud LWM2M Java SDK](https://github.com/artikcloud/artikcloud-lwm2m-java) to install SDK libraries in your local maven repository. *Please note that this SDK is different from the [ARTIK Cloud Java SDK](https://github.com/artikcloud/artikcloud-java).*
+ 
  3. Update the SampleApp.java file. Replace the place holders with your device ID and device token obtained from My ARTIK Cloud.
- ~~~java
+
+  ~~~java
    public static final String DEVICE_ID = "YOUR DEVICE ID";
    public static final String DEVICE_TOKEN = "YOUR DEVICE TOKEN";
- ~~~
+  ~~~
+ 
  4. Run the following build command at the top of the source directory:
+
   ~~~shell
   mvn clean package
   ~~~
+
   The executable `otaLwm2mClient-x.x.jar` is generated under the target directory.
 
 ## Play with firmware update
