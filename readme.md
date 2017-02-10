@@ -93,23 +93,27 @@ To implement the lwm2m client that can perform firmware via ARTIK Cloud, you jus
 
      @Override
      public FirmwareUpdateResult downloadPackage(String packageUri) {
-       LOGGER.info(">>>downloadPackage(String packageUri).  Image url:" + packageUri);
+       System.out.println("\n" + ">>>downloadPackage(String packageUri)." + "\n" + "   Image url:" + packageUri);
        // ... url to your image is provided in the packageURI.   Download the image
        // and returning a success below will put the FirmwareUpdateStatus to a 'DOWNLOADED'
        // state.
        return FirmwareUpdateResult.SUCCESS;
+
+       // Something went wrong when downloading
+       // return FirmwareUpdateResult.NO_STORAGE; // an example of failures
      }
 
      @Override
      public FirmwareUpdateResult executeUpdateFirmware() {
-       LOGGER.info(">>>executeUpdateFirmware()");
+       System.out.println(">>>executeUpdateFirmware()");
        // ... update the firmware and set to new version.
        // version here should match the image version you provided in ARTIK Cloud Developer Dashboard
        // to see a successful status
        device.setFirmwareVersion(FINAL_FIRMWARE_VERSION, true);
 
        return FirmwareUpdateResult.SUCCESS;
-
+       // Something went wrong during installing new firmware
+       //return FirmwareUpdateResult.FAILED; // an example of failures
      }
    };
    ```
