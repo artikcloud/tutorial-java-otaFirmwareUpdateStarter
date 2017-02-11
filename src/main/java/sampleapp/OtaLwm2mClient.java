@@ -1,8 +1,6 @@
 package sampleapp;
 
 import org.eclipse.leshan.core.response.ExecuteResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import cloud.artik.lwm2m.ArtikCloudClient;
 import cloud.artik.lwm2m.Device;
@@ -10,13 +8,15 @@ import cloud.artik.lwm2m.FirmwareUpdate;
 import cloud.artik.lwm2m.enums.FirmwareUpdateResult;
 import cloud.artik.lwm2m.enums.SupportedBinding;
 
-public class SampleApp {
+public class OtaLwm2mClient {
 
-	private static final String DEVICE_ID = "YOUR DEVICE ID";
-	private static final String DEVICE_TOKEN = "YOUR DEVICE TOKEN";
+	private static String deviceID = null;
+	private static String deviceToken = null;
 	
 	// Track the firmware version number at the device
 	private static int currentFirmwareVer;
+
+	private static final int EXPECTED_ARGUMENT_NUMBER = 4;
 	
 	//generic time to keep the sample app running
 	private static final long MAX_KEEP_CONNECTION_OPEN = 600000;
@@ -27,9 +27,13 @@ public class SampleApp {
 		private static final String SERIAL_NUMBER = "1234567890";
 		private static final int INITIAL_FIRMWARE_VERSION = 0;
 	}
-	
+
     public static void main (String args[]) throws InterruptedException {
-      final Device device = new Device(
+    	if (!succeedParseCommand(args)) {
+    		return;
+    	}
+        
+        final Device device = new Device(
     		 Bootstrap.MANUFACTURE, Bootstrap.MODEL, Bootstrap.SERIAL_NUMBER, SupportedBinding.UDP) {
              
              @Override
@@ -54,7 +58,7 @@ public class SampleApp {
              }
       };
       
-      ArtikCloudClient client = new ArtikCloudClient(DEVICE_ID, DEVICE_TOKEN, device);       
+      ArtikCloudClient client = new ArtikCloudClient(deviceID, deviceToken, device);       
        
       /**
        * Must subclass and override the following methods:
@@ -73,7 +77,7 @@ public class SampleApp {
                try {
             	   System.out.println(">>>simulate downloading ...");
                    Thread.sleep(1000);
-                   System.out.println(">>>simluate downloading complete!");
+                   System.out.println(">>>simulate downloading complete!");
                } catch (InterruptedException exc) {
                    // Something went wrong when downloading
             	   return FirmwareUpdateResult.NO_STORAGE; // an example of failures
@@ -123,8 +127,35 @@ public class SampleApp {
        // Finish
        client.close();
        System.out.println("\n>>>Exiting....");
-	    	 
      }
+
+     // Helper functions
+    private static boolean succeedParseCommand(String args[]) {
+    	// java -jar target/OtaLwm2mClient-1.0.jar -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN
+    	if (args.length != EXPECTED_ARGUMENT_NUMBER) {
+    		printUsage();
+    		return false; 
+    	}
+        int index = 0;
+        while (index < args.length) {
+            String arg = args[index];
+        	if ("-d".equals(arg)) {
+            	++index; // Move to the next argument the value of device id
+        		deviceID = args[index];
+        	} else if ("-t".equals(arg)) {
+        		++index; // Move to the next argument the value of device token
+        		deviceToken = args[index];
+        	}
+        	++index;
+        }
+        if (deviceToken == null || deviceID == null) {
+        	printUsage();
+        	return false;
+        }
+    	return true;
+    }
     
-     
+    private static void printUsage() {
+        System.out.println("Usage: " + OtaLwm2mClient.class.getSimpleName() + " -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN");
+    }
 }

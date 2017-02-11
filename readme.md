@@ -15,10 +15,9 @@ After completing this sample, you will learn the following objectives:
 ## Overview of workflows
 - Create a device type in Developer Dashboard and enable Device Management for that device type.    
 - Add a device of that type to your account in My ARTIK Cloud. Note the device ID and token.
-- In the sample code, add device ID and token to the SampleApp.java file.  
-- Run the SampleApp (lwm2m client) - this will create a connection to ARTIK Cloud and wait for a firmware update.
+- Run the SampleApp (lwm2m client) and provide the device ID and token. This will create a connection to ARTIK Cloud and wait for a firmware update.
 - In ARTIK Cloud Device Management Dashboard, upload a firmware image, and select the connected device to apply a firmware update.
-- Watch the logs in of the lwm2m client to observe the firmware update.
+- Watch the logs of the lwm2m client to observe the firmware update.
 
 ## Setup / Installation
 
@@ -36,20 +35,13 @@ After completing this sample, you will learn the following objectives:
 
  2. Follow the installation instructions of the [ARTIK Cloud LWM2M Java SDK](https://github.com/artikcloud/artikcloud-lwm2m-java) to install SDK libraries in your local maven repository. *Please note that this SDK is different from the [ARTIK Cloud Java SDK](https://github.com/artikcloud/artikcloud-java).*
  
- 3. Update the SampleApp.java file. Replace the place holders with your device ID and device token obtained from My ARTIK Cloud.
-
-  ~~~java
-   public static final String DEVICE_ID = "YOUR DEVICE ID";
-   public static final String DEVICE_TOKEN = "YOUR DEVICE TOKEN";
-  ~~~
- 
- 4. Run the following build command at the top of the source directory:
+ 3. Run the following build command at the top of the source directory:
 
   ~~~shell
   mvn clean package
   ~~~
 
-  The executable `otaLwm2mClient-x.x.jar` is generated under the target directory.
+  The executable `OtaLwm2mClient-x.x.jar` is generated under the target directory.
 
 ## Play with firmware update
 
@@ -57,7 +49,7 @@ Are you ready to have fun?
 
  1. Start lwm2m client. Run the following command at the top of the source directory:
   ~~~shell
-  java -jar target/otaLwm2mClient-1.0.jar
+  java -jar target/otaLwm2mClient-x.x.jar -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN
   ~~~
  From the terminal print out, you should see that the client establishes a connection to ARTIK Cloud LWM2M server and is now waiting to receive an Over The Air firmware update from the server.
  

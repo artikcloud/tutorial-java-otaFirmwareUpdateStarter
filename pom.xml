@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>cloud.artik</groupId>
-  <artifactId>otaLwm2mClient</artifactId>
+  <artifactId>OtaLwm2mClient</artifactId>
   <version>1.0</version>
   
   <!-- Output to jar format -->
@@ -14,7 +14,7 @@
      <project.build.javaVersion>1.8</project.build.javaVersion>
      <element.connector.version>${project.version}</element.connector.version>
      <snapshotDependencyAllowed>true</snapshotDependencyAllowed>
-     <assembly.mainClass>sampleapp.SampleApp</assembly.mainClass>
+     <assembly.mainClass>sampleapp.OtaLwm2mClient</assembly.mainClass>
   </properties>
   
     
