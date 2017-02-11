@@ -9,32 +9,29 @@ import cloud.artik.lwm2m.enums.FirmwareUpdateResult;
 import cloud.artik.lwm2m.enums.SupportedBinding;
 
 public class OtaLwm2mClient {
+    private static String deviceID = null;
+    private static String deviceToken = null;
+    private static String firmwareVersionAfterUpdate = null;
 
-	private static String deviceID = null;
-	private static String deviceToken = null;
-	
-	// Track the firmware version number at the device
-	private static int currentFirmwareVer;
-
-	private static final int EXPECTED_ARGUMENT_NUMBER = 4;
-	
-	//generic time to keep the sample app running
-	private static final long MAX_KEEP_CONNECTION_OPEN = 600000;
-	
-	private static class Bootstrap {
-		private static final String MANUFACTURE = "Sample Company XYZ";
-		private static final String MODEL = "XYZ-1";
-		private static final String SERIAL_NUMBER = "1234567890";
-		private static final int INITIAL_FIRMWARE_VERSION = 0;
-	}
+    private static final int EXPECTED_ARGUMENT_NUMBER = 6;
+    
+    //generic time to keep the sample app running (millisec)
+    private static final long MAX_MS_KEEP_CONNECTION_OPEN = 600000;
+    
+    private static class Bootstrap {
+        private static final String MANUFACTURE = "Sample Company XYZ";
+        private static final String MODEL = "XYZ-1";
+        private static final String SERIAL_NUMBER = "1234567890";
+        private static final String INITIAL_FIRMWARE_VERSION = "V0";
+    }
 
     public static void main (String args[]) throws InterruptedException {
-    	if (!succeedParseCommand(args)) {
-    		return;
-    	}
+        if (!succeedParseCommand(args)) {
+            return;
+        }
         
         final Device device = new Device(
-    		 Bootstrap.MANUFACTURE, Bootstrap.MODEL, Bootstrap.SERIAL_NUMBER, SupportedBinding.UDP) {
+             Bootstrap.MANUFACTURE, Bootstrap.MODEL, Bootstrap.SERIAL_NUMBER, SupportedBinding.UDP) {
              
              @Override
              public ExecuteResponse executeReboot() {
@@ -72,15 +69,15 @@ public class OtaLwm2mClient {
            @Override
            public FirmwareUpdateResult downloadPackage(String packageUri) {
                System.out.println("\n" + ">>>downloadPackage(String packageUri)." + "\n" 
-        	                    + "   Image url:" + packageUri);
+                                + "   Image url:" + packageUri);
                
                try {
-            	   System.out.println(">>>simulate downloading ...");
+                   System.out.println(">>>simulate downloading ...");
                    Thread.sleep(1000);
                    System.out.println(">>>simulate downloading complete!");
                } catch (InterruptedException exc) {
                    // Something went wrong when downloading
-            	   return FirmwareUpdateResult.NO_STORAGE; // an example of failures
+                   return FirmwareUpdateResult.NO_STORAGE; // an example of failures
                }
 
                //returning success here puts FirmwareUpdate State to "Downloaded".
@@ -92,34 +89,33 @@ public class OtaLwm2mClient {
                System.out.println(">>>executeUpdateFirmware()");
                
                try {
-            	   System.out.println(">>>simulate updating ...");
+                   System.out.println(">>>simulate updating ...");
                    Thread.sleep(1000);
-                   // In the real world, get the firmware version from the new image installed
-                   ++currentFirmwareVer; 
-                   System.out.println(">>>simulate updating complete with version " + currentFirmwareVer + "");
+                   
+                   System.out.println(">>>simulate updating complete with version " + firmwareVersionAfterUpdate + "");
               } catch (InterruptedException exc) {
                    // Something went wrong during installing new firmware
-            	   return FirmwareUpdateResult.FAILED; // an example of failures
+                   return FirmwareUpdateResult.FAILED; // an example of failures
                }
                
-               // Must call this method. This ensures that this version number is passed to ARTIK Cloud when the cloud polls
+               // #1 In the real world, get the firmware version from the new image installed
+               // #2 Must call this method. This ensures that this version number is passed to ARTIK Cloud when the cloud polls
                // the device for the lwm2m object 0/3/3.
-               device.setFirmwareVersion(String.valueOf(currentFirmwareVer), true);
+               device.setFirmwareVersion(firmwareVersionAfterUpdate, true);
+               
                return FirmwareUpdateResult.SUCCESS;
            }
        };
  
-       currentFirmwareVer = Bootstrap.INITIAL_FIRMWARE_VERSION;
-
        //wire client with FirewareUpdate
        client.setFirmwareUpdate(sampleFirmwareUpdate);
-       device.setFirmwareVersion(String.valueOf(currentFirmwareVer), true);
+       device.setFirmwareVersion(Bootstrap.INITIAL_FIRMWARE_VERSION, true);
 
        // Register
        client.start();
 
        // Sample just keeps the connection open for set period of time and will exit. 
-       Thread.sleep(MAX_KEEP_CONNECTION_OPEN);
+       Thread.sleep(MAX_MS_KEEP_CONNECTION_OPEN);
 
        // De-Register
        client.stop(true);
@@ -129,33 +125,37 @@ public class OtaLwm2mClient {
        System.out.println("\n>>>Exiting....");
      }
 
-     // Helper functions
+     ////////////////////////////////////////////
+    // Helper functions
     private static boolean succeedParseCommand(String args[]) {
-    	// java -jar target/OtaLwm2mClient-1.0.jar -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN
-    	if (args.length != EXPECTED_ARGUMENT_NUMBER) {
-    		printUsage();
-    		return false; 
-    	}
+        // java -jar target/OtaLwm2mClient-1.0.jar -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN -f FIRMWARE_VER_AFTER_UPDATE
+        if (args.length != EXPECTED_ARGUMENT_NUMBER) {
+            printUsage();
+            return false; 
+        }
         int index = 0;
         while (index < args.length) {
             String arg = args[index];
-        	if ("-d".equals(arg)) {
-            	++index; // Move to the next argument the value of device id
-        		deviceID = args[index];
-        	} else if ("-t".equals(arg)) {
-        		++index; // Move to the next argument the value of device token
-        		deviceToken = args[index];
-        	}
-        	++index;
+            if ("-d".equals(arg)) {
+                ++index; // Move to the next argument the value of device id
+                deviceID = args[index];
+            } else if ("-t".equals(arg)) {
+                ++index; // Move to the next argument the value of device token
+                deviceToken = args[index];
+            } else if ("-f".equals(arg)) {
+                ++index; // Move to the next argument the value of firmware version after update
+                firmwareVersionAfterUpdate = args[index];
+            }
+            ++index;
         }
-        if (deviceToken == null || deviceID == null) {
-        	printUsage();
-        	return false;
+        if (deviceToken == null || deviceID == null || firmwareVersionAfterUpdate == null) {
+            printUsage();
+            return false;
         }
-    	return true;
+        return true;
     }
     
     private static void printUsage() {
-        System.out.println("Usage: " + OtaLwm2mClient.class.getSimpleName() + " -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN");
+        System.out.println("Usage: " + OtaLwm2mClient.class.getSimpleName() + " -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN -f FIRMWARE_VER_AFTER_UPDATE");
     }
 }

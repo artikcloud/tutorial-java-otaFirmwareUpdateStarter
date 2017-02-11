@@ -49,13 +49,14 @@ Are you ready to have fun?
 
  1. Start lwm2m client. Run the following command at the top of the source directory:
   ~~~shell
-  java -jar target/otaLwm2mClient-x.x.jar -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN
+  java -jar target/otaLwm2mClient-x.x.jar -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN -f FIRMWARE_VER_AFTER_UPDATE
   ~~~
- From the terminal print out, you should see that the client establishes a connection to ARTIK Cloud LWM2M server and is now waiting to receive an Over The Air firmware update from the server.
+  **NOTE** In the realword scenario, the lwm2m device should obtain the firmware version from the installed firmware. For this sample, you need to pass in the version of the firmware to be installed.
+  From the terminal print out, you should see that the client establishes a connection to ARTIK Cloud LWM2M server and is now waiting to receive an Over The Air firmware update from the server.
  
  2. Go to Developer Dashboard to [upload a Firmware image](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html) for your Device Type. You can select any type of files (e.g. txt) as an image. In the [firmware image metadata screen](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#firmware-image-metadata),  enter the following information: 
      - Choose "Application" as an [update type](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#execute-ota-update).
-     - **Set "version number" to 1**.
+     - **Set "version number" to the one you provide in the command line at Step 1.**
 
  3. [Execute an Firmware Update](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#execute-ota-update) using the Device Management dashboard.
 
@@ -67,11 +68,14 @@ Are you ready to have fun?
   >>>simluate downloading complete!
   >>>executeUpdateFirmware()
   >>>simulate updating ...
-  >>>simulate updating complete with version 1
+  >>>simulate updating complete with version V1
   ```
 
- 5. You can do multiple firmware update by repeating Step 2 to 4. Make sure you bump up the version number by one everytime performing Step 2. In the terminal of the client, you should see the firmware version goes up as 1, 2,.... If you kill the client and restart it again, you start with version 1. 
-  
+ 5. Enter Ctrl-C in the terminal of the sample app to kill the client. This sample client is good to use for one update.
+
+ 6. Go to Developer Dashboard to [monitor OTA update tasks](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#monitor-update-task). You should see one task for each run of this client like the following screenshot. The update could fail if the client is not started or the versions provided in Step 2 and 3 do not match.
+![OTA update tasks](./img/ota-task-list.png)
+
 ## Implementation
 
 To implement the lwm2m client that can perform firmware via ARTIK Cloud, you just need to override the following two methods of the FirmwareUpdate class. This follows the LWM2M Specifications for Object 5 FirmwareUpdate Resources.
@@ -110,7 +114,7 @@ To implement the lwm2m client that can perform firmware via ARTIK Cloud, you jus
    };
    ```
 
-Check out our documentation for more OTA (Over the Air) Updates  [OTA documentation](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html).
+Check out our documentation for more OTA (Over the Air) Updates [OTA documentation](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html).
 
 ## Resources
 
