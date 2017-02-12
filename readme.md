@@ -51,7 +51,7 @@ Are you ready to have fun?
   ~~~shell
   java -jar target/otaLwm2mClient-x.x.jar -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN -f FIRMWARE_VER_AFTER_UPDATE
   ~~~
-  **NOTE** *In the realword scenario, the lwm2m device should obtain the firmware version from the installed firmware.* For this sample client, you need to provid the firmware version as an input argument. From the terminal print out, you should see that the client establishes a connection to ARTIK Cloud LWM2M server and is now waiting to receive an Over The Air firmware update from the server.
+  **NOTE** *In the realword scenario, the lwm2m device should obtain the firmware version from the installed firmware.* For this sample client, you need to provide the firmware version as an input argument. From the terminal print out, you should see that the client establishes a connection to ARTIK Cloud LWM2M server and is now waiting to receive an Over The Air firmware update from the server.
  
  2. Go to Developer Dashboard to [upload a Firmware image](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html) for your Device Type. You can select any type of files (e.g. txt) as an image. In the [firmware image metadata screen](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#firmware-image-metadata),  enter the following information: 
      - Choose "Application" as an [update type](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#execute-ota-update).
@@ -59,7 +59,7 @@ Are you ready to have fun?
 
  3. [Execute an Firmware Update](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#execute-ota-update) using the Device Management dashboard.
 
- 4. In the terminal of the sample app, you will see the logs similar to the following example:
+ 4. In the terminal of the sample app, you will see the logs similar to the following:
   ```shell
   >>>downloadPackage(String packageUri).
      Image url:https://api.artik.cloud/v1.1/updates/urls/ed26b48d9
@@ -70,9 +70,9 @@ Are you ready to have fun?
   >>>simulate updating complete with version V1
   ```
 
- 5. Enter Ctrl-C in the terminal of the sample app to kill the client. This sample client is good to use for one update.
+ 5. Enter Ctrl-C in the terminal to kill the client. This sample client is good to use for one update.
 
- 6. Go to Developer Dashboard to [monitor OTA update tasks](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#monitor-update-task). You should see one task for each run of this client like the following screenshot. An update could fail due to various reasons. For example, the versions provided in Step 2 and 3 do not match.
+ 6. Go to Developer Dashboard to [monitor OTA update tasks](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#monitor-update-task). You should see one task for each run of this client like the following screenshot. An update could fail due to various reasons. For example, the versions provided in Step 1 and 2 do not match.
 ![OTA update tasks](./img/ota-task-list.png)
 
 ## Implementation
