@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>cloud.artik</groupId>
-  <artifactId>OtaLwm2mClient</artifactId>
+  <artifactId>ota-lwm2m-client</artifactId>
   <version>1.0</version>
   
   <!-- Output to jar format -->
   <packaging>jar</packaging>
-  <name>ARTIKCloud-ota-lwm2m-Client</name>
+  <name>ARTIKCloud-OtaLwm2mClient</name>
   <description>ARTIK Cloud OTA LWM2M Client</description>
   
   <properties>
@@ -14,7 +14,7 @@
      <project.build.javaVersion>1.8</project.build.javaVersion>
      <element.connector.version>${project.version}</element.connector.version>
      <snapshotDependencyAllowed>true</snapshotDependencyAllowed>
-     <assembly.mainClass>sampleapp.OtaLwm2mClient</assembly.mainClass>
+     <assembly.mainClass>cloud.artik.example.OtaLwm2mClient</assembly.mainClass>
   </properties>
   
     

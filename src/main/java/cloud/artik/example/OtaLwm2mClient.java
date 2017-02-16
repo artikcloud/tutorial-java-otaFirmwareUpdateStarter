@@ -1,4 +1,4 @@
-package sampleapp;
+package cloud.artik.example;
 
 import org.eclipse.leshan.core.response.ExecuteResponse;
 
