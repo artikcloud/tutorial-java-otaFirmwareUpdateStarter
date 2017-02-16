@@ -27,7 +27,7 @@ After completing this sample, you will learn the following objectives:
 
  2. Enable [Device Properties](https://developer.artik.cloud/documentation/advanced-features/device-management.html#device-management-in-the-developer-dashboard) for your device type. You do this in the [Device Type Dashboard](https://developer.artik.cloud/dashboard/devicetypes)—> Select Your Device Type —> Select Device Management —> Click "Enable Device Properties".
 
- 3. At [My ARTIK Cloud](https://my.artik.cloud/), [connect a device](https://developer.artik.cloud/documentation/tools/web-tools.html#connecting-a-device) (or use one you already own) of the device type. Get the [device ID and token](https://developer.artik.cloud/documentation/tools/web-tools.html#managing-a-device-token), which you will need when running the example client later.
+ 3. At [My ARTIK Cloud](https://my.artik.cloud/), [connect a device](https://developer.artik.cloud/documentation/tools/web-tools.html#connecting-a-device) (or use the one you already own) of the device type. Get the [device ID and token](https://developer.artik.cloud/documentation/tools/web-tools.html#managing-a-device-token), which you will need when running the example client later.
 
 ### Setup the Java project
 
@@ -51,7 +51,7 @@ Are you ready to have fun?
   ~~~shell
   java -jar target/OtaLwm2mClient-x.x.jar -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN -f FIRMWARE_VER_AFTER_UPDATE
   ~~~
-  **NOTE** You provide the device ID, token and firmware version as an input arguments. *In the realword scenario, the lwm2m device should obtain the firmware version from the installed firmware.*  From the terminal print out, you should see that the client establishes a connection to ARTIK Cloud LWM2M server and is now waiting to receive an Over The Air firmware update from the server.
+  **NOTE** You provide the device ID, token and firmware version as an input arguments. *In the real world scenario, the lwm2m device should obtain the firmware version from the installed firmware image.* From the terminal print out, you should see that the client establishes a connection to ARTIK Cloud LWM2M server and is now waiting to receive an Over The Air firmware update from the server.
  
  2. Go to Developer Dashboard to [upload a Firmware image](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html) for your Device Type. You can select any type of files (e.g. txt) as an image. In the [firmware image metadata screen](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#firmware-image-metadata),  enter the following information: 
      - Choose "Application" as an [update type](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#execute-ota-update).
