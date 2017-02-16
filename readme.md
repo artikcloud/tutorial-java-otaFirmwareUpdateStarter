@@ -41,7 +41,7 @@ After completing this sample, you will learn the following objectives:
   mvn clean package
   ~~~
 
-  The executable `OtaLwm2mClient-x.x.jar` is generated under the target directory.
+  The executable `ota-lwm2m-client-x.x.jar` is generated under the target directory.
 
 ## Play with firmware update
 
@@ -49,7 +49,7 @@ Are you ready to have fun?
 
  1. Start lwm2m client. Run the following command at the top of the source directory:
   ~~~shell
-  java -jar target/OtaLwm2mClient-x.x.jar -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN -f FIRMWARE_VER_AFTER_UPDATE
+  java -jar target/ota-lwm2m-client-x.x.jar -d YOUR_DEVICE_ID -t YOUR_DEVICE_TOKEN -f FIRMWARE_VER_AFTER_UPDATE
   ~~~
   **NOTE** You provide the device ID, token and firmware version as an input arguments. *In the real world scenario, the lwm2m device should obtain the firmware version from the installed firmware image.* From the terminal print out, you should see that the client establishes a connection to ARTIK Cloud LWM2M server and is now waiting to receive an Over The Air firmware update from the server.
  
