@@ -63,14 +63,17 @@ Are you ready to have fun?
   ```shell
   >>>downloadPackage(String packageUri).
      Image url:https://api.artik.cloud/v1.1/updates/urls/ed26b48d9
-  >>>simulate downloading ...
-  >>>simluate downloading complete!
+  >>>Downloading firmware...
+     Content-Type = application/octet-stream
+     Content-Disposition = null
+     Content-Length = 81292
+  >>>Downloading complete and save to ./firmware_V1
   >>>executeUpdateFirmware()
   >>>simulate updating ...
   >>>simulate updating complete with version V1
   ```
 
- 5. Enter Ctrl-C in the terminal to kill the client. This sample client is good to use for one update.
+ 5. You will find the downloaded firmware file under the current directory. Enter Ctrl-C in the terminal to kill the client. This sample client is good to use for one update.
 
  6. Go to Developer Dashboard to [monitor OTA update tasks](https://developer.artik.cloud/documentation/advanced-features/ota-updates.html#monitor-update-task). You should see one task for each run of this client like the following screenshot. An update could fail due to various reasons. For example, the versions provided in Step 1 and 2 do not match.
 ![OTA update tasks](./img/ota-task-list.png)
