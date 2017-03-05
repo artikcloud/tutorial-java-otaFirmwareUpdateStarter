@@ -92,13 +92,16 @@ To implement the lwm2m client that can perform firmware via ARTIK Cloud, you jus
      @Override
      public FirmwareUpdateResult downloadPackage(String packageUri) {
        System.out.println("\n" + ">>>downloadPackage(String packageUri)." + "\n" + "   Image url:" + packageUri);
-       // ... url to your image is provided in the packageURI.   Download the image
-       // and returning a success below will put the FirmwareUpdateStatus to a 'DOWNLOADED'
-       // state.
+       // ... url to your image is provided in the packageURI. 
+       try {
+           System.out.println(">>>Downloading firmware...");
+           downloadFile(packageUri, saveFirmwarePath);
+       } catch (IOException exc) {
+           // Something went wrong when downloading
+           return FirmwareUpdateResult.OUT_OF_MEMORY; // an example of failures
+       }
+       //returning success here puts FirmwareUpdate State to "Downloaded".
        return FirmwareUpdateResult.SUCCESS;
-
-       // Something went wrong when downloading
-       // return FirmwareUpdateResult.NO_STORAGE; // an example of failures
      }
 
      @Override
