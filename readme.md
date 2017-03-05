@@ -94,7 +94,6 @@ To implement the lwm2m client that can perform firmware via ARTIK Cloud, you jus
        System.out.println("\n" + ">>>downloadPackage(String packageUri)." + "\n" + "   Image url:" + packageUri);
        // ... url to your image is provided in the packageURI. 
        try {
-           System.out.println(">>>Downloading firmware...");
            downloadFile(packageUri, saveFirmwarePath);
        } catch (IOException exc) {
            // Something went wrong when downloading
