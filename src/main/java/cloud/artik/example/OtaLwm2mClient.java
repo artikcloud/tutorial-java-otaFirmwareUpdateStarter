@@ -76,11 +76,12 @@ public class OtaLwm2mClient {
             
            @Override
            public FirmwareUpdateResult downloadPackage(String packageUri) {
-               System.out.println("\n" + ">>>downloadPackage(String packageUri)." + "\n" 
-                                + "   Image url:" + packageUri);
+//               System.out.println("\n" + ">>>downloadPackage(String packageUri)." + "\n" 
+//                                + "   Image url:" + packageUri);
                
                try {
-                   System.out.println(">>>Downloading firmware...");
+                   System.out.println("\n>>>Downloading firmware image ...");
+                   System.out.println("   Image url:" + packageUri);
                    downloadFile(packageUri, saveFirmwarePath);
                } catch (IOException exc) {
                    // Something went wrong when downloading
@@ -93,13 +94,13 @@ public class OtaLwm2mClient {
            
            @Override
            public FirmwareUpdateResult executeUpdateFirmware() {
-               System.out.println(">>>executeUpdateFirmware()");
+//               System.out.println(">>>executeUpdateFirmware()");
                
                try {
-                   System.out.println(">>>simulate updating ...");
+                   System.out.println("\n>>>Simulate updating firmware...");
                    Thread.sleep(1000);
                    
-                   System.out.println(">>>simulate updating complete with version " + firmwareVersionAfterUpdate + "");
+                   System.out.println(">>>Updating completed with version " + firmwareVersionAfterUpdate + "");
               } catch (InterruptedException exc) {
                    // Something went wrong during installing new firmware
                    return FirmwareUpdateResult.FAILED; // an example of failures
@@ -185,8 +186,8 @@ public class OtaLwm2mClient {
             String contentType = httpConn.getContentType();
 
             int contentLength = httpConn.getContentLength();
-            System.out.println("   Content-Type = " + contentType);
-            System.out.println("   Content-Disposition = " + disposition);
+//            System.out.println("   Content-Type = " + contentType);
+//            System.out.println("   Content-Disposition = " + disposition);
             System.out.println("   Content-Length = " + contentLength);
 
             // opens input stream from the HTTP connection
@@ -204,7 +205,7 @@ public class OtaLwm2mClient {
             outputStream.close();
             inputStream.close();
 
-            System.out.println(">>>Downloading complete and save to " + saveFilePath);
+            System.out.println(">>>Downloading completed and saved to " + saveFilePath);
         } else {
             System.out.println(">>>No file to download. Server replied HTTP code: " + responseCode);
         }

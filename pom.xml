@@ -15,15 +15,17 @@
      <element.connector.version>${project.version}</element.connector.version>
      <snapshotDependencyAllowed>true</snapshotDependencyAllowed>
      <assembly.mainClass>cloud.artik.example.OtaLwm2mClient</assembly.mainClass>
+     <maven.version>3.3</maven.version>
   </properties>
   
     
   <build>
     <plugins>
+        <!-- Set a JDK compiler level -->
         <plugin>
 	        <groupId>org.apache.maven.plugins</groupId>
 	        <artifactId>maven-compiler-plugin</artifactId>
-	        <version>3.3</version>
+	        <version>${maven.version}</version>
 	        <configuration>
 	            <source>${project.build.javaVersion}</source>
 	            <target>${project.build.javaVersion}</target>
@@ -31,44 +33,37 @@
 	        </configuration>
       </plugin>
     
+      <!-- Make this jar executable -->
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-assembly-plugin</artifactId>
+	      <version>2.5.5</version>
+	      <inherited>false</inherited>
+	      <configuration>
+	          <appendAssemblyId>false</appendAssemblyId>
+	          <attach>false</attach>
+	          <archive>
+	              <manifest>
+	                  <addClasspath>true</addClasspath>
+	                  <mainClass>${assembly.mainClass}</mainClass>
+	                  <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+	              </manifest>
+	          </archive>
+	          <descriptorRefs>
+	              <descriptorRef>jar-with-dependencies</descriptorRef>
+	          </descriptorRefs>
+	      </configuration>
+	      <executions>
+	          <execution>
+	              <id>create-my-bundle</id>
+	              <phase>package</phase>
+	              <goals>
+	                  <goal>single</goal>
+	              </goals>
+	          </execution>
+	      </executions>
       </plugin>
-           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <version>2.5.5</version>
-            <inherited>false</inherited>
-            <configuration>
-                <appendAssemblyId>false</appendAssemblyId>
-                <attach>false</attach>
-                <archive>
-                    <manifest>
-                        <addClasspath>true</addClasspath>
-                        <mainClass>${assembly.mainClass}</mainClass>
-                        <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                    </manifest>
-                </archive>
-                <descriptorRefs>
-                    <descriptorRef>jar-with-dependencies</descriptorRef>
-                </descriptorRefs>
-            </configuration>
-            <executions>
-                <execution>
-                    <id>make-assembly</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>single</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
+   </plugins>
   </build>
   
   <dependencies>
