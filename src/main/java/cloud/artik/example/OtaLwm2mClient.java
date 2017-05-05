@@ -14,6 +14,7 @@ import cloud.artik.lwm2m.Device;
 import cloud.artik.lwm2m.FirmwareUpdate;
 import cloud.artik.lwm2m.enums.FirmwareUpdateResult;
 import cloud.artik.lwm2m.enums.SupportedBinding;
+import cloud.artik.lwm2m.enums.FirmwareUpdateState;
 
 public class OtaLwm2mClient {
     private static String deviceID = null;
@@ -107,10 +108,28 @@ public class OtaLwm2mClient {
                }
                
                // #1 In the real world, get the firmware version from the new image installed
-               // #2 Must call this method. This ensures that this version number is passed to ARTIK Cloud when the cloud polls
+               // #2 Must call this method, which ensures that the version number is passed to ARTIK Cloud next time the cloud polls
                // the device for the lwm2m object 0/3/3.
+               // #3 The method must be called before returning FirmwareUpdateResult.SUCCESS. 
+               //    Otherwise ARTIK Cloud picks up the wrong firmware version.
                device.setFirmwareVersion(firmwareVersionAfterUpdate, true);
                
+               // If you need to reboot this device now, method executeUpdateFirmware won't return normally.
+               // To support this case, recommend you to do the following:
+               //   #1 Before rebooting, write a record to a persistent storage. 
+               //   The record indicates that a firmware update has just been performed. 
+               //   
+               //   #2 After rebooting, the code looks for the record. 
+               //   If the record exists, set the appropriate fields like the following code example. 
+               //   Only after this, ARTIK Cloud can get correct lwm2m resources from the device.
+               //     
+               //   setState(FirmwareUpdateState.IDLE, /* fireResourceChange */ false);
+               //   setUpdateResult(FirmwareUpdateResult.SUCCESS, /* fireResourceChang */ false);
+               //
+               //   The above two line of code are examples. You should double check the logics 
+               //   of the base class FirmwareUpdate. Duplicate its logic that handles the 
+               //   success result of executeUpdateFirmware() in your reboot code.
+
                return FirmwareUpdateResult.SUCCESS;
            }
        };

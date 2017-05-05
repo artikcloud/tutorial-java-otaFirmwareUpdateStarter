@@ -106,10 +106,30 @@ To implement the lwm2m client that can perform firmware via ARTIK Cloud, you jus
      @Override
      public FirmwareUpdateResult executeUpdateFirmware() {
        System.out.println(">>>executeUpdateFirmware()");
-       // ... update the firmware and set to new version.
-       // version here should match the image version you provided in ARTIK Cloud Developer Dashboard
-       // to see a successful status
-       device.setFirmwareVersion(FINAL_FIRMWARE_VERSION, true);
+       // ... update the firmware.
+
+       // #1 In the real world, get the firmware version from the new image installed
+       // #2 Must call this method, which ensures that the version number is passed to ARTIK Cloud next time the cloud polls
+       // the device for the lwm2m object 0/3/3.
+       // #3 The method must be called before returning FirmwareUpdateResult.SUCCESS. 
+       //    Otherwise ARTIK Cloud picks up the wrong firmware version.
+       device.setFirmwareVersion(firmwareVersionAfterUpdate, true);
+       
+       // If you need to reboot this device here, method executeUpdateFirmware won't return normally.
+       // To support this case, recommend you to do the following:
+       //   #1 Before rebooting, write a record to a persistent storage. 
+       //   The record indicates that a firmware update has just been performed. 
+       //   
+       //   #2 After rebooting, the code looks for the record. 
+       //   If the record exists, set the appropriate fields like the following code example. 
+       //   Only after this, ARTIK Cloud can get correct lwm2m resources from the device.
+       //     
+       //   setState(FirmwareUpdateState.IDLE, /* fireResourceChange */ false);
+       //   setUpdateResult(FirmwareUpdateResult.SUCCESS, /* fireResourceChang */ false);
+       //
+       //   The above two line of code are examples. You should double check the logics 
+       //   of the base class FirmwareUpdate. Duplicate its logic
+       //   that handles the success result of executeUpdateFirmware() in your reboot code.
 
        return FirmwareUpdateResult.SUCCESS;
        // Something went wrong during installing new firmware
